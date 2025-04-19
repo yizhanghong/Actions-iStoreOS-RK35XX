@@ -81,3 +81,26 @@ chmod 755 package/base-files/files/bin/coremark.sh
 
 # 定时限速插件
 git clone --depth=1 https://github.com/sirpdboy/luci-app-eqosplus package/luci-app-eqosplus
+
+新增自定义设备
+git clone --depth=1 https://github.com/yizhanghong/iStoreOS-action.git test
+# 添加jenet-lu的dts
+echo "
+define Device/jetron_jenet-lu
+\$(call Device/rk3568)
+  DEVICE_VENDOR := JETRON
+  DEVICE_MODEL := JENET-LU
+  SUPPORTED_DEVICES += jetron,jenet-lu
+  DEVICE_DTS := rk3568-jenet-lu
+  DEVICE_PACKAGES := kmod-scsi-core kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275s
+endef
+TARGET_DEVICES += jetron_jenet-lu
+" >>  target/linux/rockchip/image/rk35xx.mk
+
+echo "
+CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_jetron_jenet-lu=y
+" >>  .config
+
+cp -f test/dts/rk3568-evb1-ddr4-v10.dtsi target/linux/rockchip/dts/rk3568/rk3568-evb1-ddr4-v10.dtsi
+cp -f test/dts/rk3568-jenet.dtsi target/linux/rockchip/dts/rk3568/rk3568-jenet.dtsi
+cp -f test/dts/rk3568-jenet-lu.dts target/linux/rockchip/dts/rk3568/rk3568-jenet-lu.dts
