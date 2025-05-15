@@ -82,25 +82,22 @@ chmod 755 package/base-files/files/bin/coremark.sh
 # 定时限速插件
 git clone --depth=1 https://github.com/sirpdboy/luci-app-eqosplus package/luci-app-eqosplus
 
-新增自定义设备
-git clone --depth=1 https://github.com/yizhanghong/iStoreOS-action.git test
-# 添加jenet-lu的dts
+# 添加imb3588
 echo "
-define Device/jetron_jenet-lu
-\$(call Device/rk3568)
-  DEVICE_VENDOR := JETRON
-  DEVICE_MODEL := JENET-LU
-  SUPPORTED_DEVICES += jetron,jenet-lu
-  DEVICE_DTS := rk3568-jenet-lu
-  DEVICE_PACKAGES := kmod-scsi-core kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275s
+define Device/yx_imb3588
+\$(call Device/rk3588)
+  DEVICE_VENDOR := YX
+  DEVICE_MODEL := IMB3588
+  SUPPORTED_DEVICES += yx,imb3588
+  DEVICE_DTS := rk3588-imb3588
+  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-hwmon-pwmfan kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275p
+  IMAGE/sysupgrade.img.gz := boot-combined | boot-script rk3588 | pine64-img | gzip | append-metadata
 endef
-TARGET_DEVICES += jetron_jenet-lu
+TARGET_DEVICES += yx_imb3588
 " >>  target/linux/rockchip/image/rk35xx.mk
 
 echo "
-CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_jetron_jenet-lu=y
+CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_yx_imb3588=y
 " >>  .config
 
-cp -f test/dts/rk3568-evb1-ddr4-v10.dtsi target/linux/rockchip/dts/rk3568/rk3568-evb1-ddr4-v10.dtsi
-cp -f test/dts/rk3568-jenet.dtsi target/linux/rockchip/dts/rk3568/rk3568-jenet.dtsi
-cp -f test/dts/rk3568-jenet-lu.dts target/linux/rockchip/dts/rk3568/rk3568-jenet-lu.dts
+cp -f $GITHUB_WORKSPACE/configfiles/rk3588-imb3588.dts target/linux/rockchip/dts/rk3588/rk3588-imb3588.dts
