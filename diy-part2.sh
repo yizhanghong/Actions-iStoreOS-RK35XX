@@ -100,4 +100,22 @@ echo "
 CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_yx_imb3588=y
 " >>  .config
 
+#添加qmodem
+git clone --depth=1 -b main https://github.com/FUjr/QModem package/modem
+echo "
+CONFIG_PACKAGE_luci-i18n-qmodem-zh-cn=y
+CONFIG_PACKAGE_luci-app-qmodem=y
+CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_vendor-qmi-wwan=y
+# CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_generic-qmi-wwan is not set
+CONFIG_PACKAGE_luci-app-qmodem_USE_TOM_CUSTOMIZED_QUECTEL_CM=y
+# CONFIG_PACKAGE_luci-app-qmodem_USING_QWRT_QUECTEL_CM_5G is not set
+# CONFIG_PACKAGE_luci-app-qmodem_USING_NORMAL_QUECTEL_CM is not set
+# CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_ADD_PCI_SUPPORT is not set
+# CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_ADD_QFIREHOSE_SUPPORT is not set
+CONFIG_PACKAGE_luci-app-qmodem-hc=y
+CONFIG_PACKAGE_luci-app-qmodem-mwan=y
+CONFIG_PACKAGE_luci-app-qmodem-sms=y
+CONFIG_PACKAGE_luci-app-qmodem-ttl=y
+" >> .config
+
 cp -f $GITHUB_WORKSPACE/configfiles/rk3588-imb3588.dts target/linux/rockchip/dts/rk3588/rk3588-imb3588.dts
