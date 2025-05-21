@@ -82,6 +82,9 @@ chmod 755 package/base-files/files/bin/coremark.sh
 # 定时限速插件
 git clone --depth=1 https://github.com/sirpdboy/luci-app-eqosplus package/luci-app-eqosplus
 
+# rk3588调试改为115200
+sed -i "s/1500000/115200/g" target/linux/rockchip/dts/rk3588/rk3588-linux.dtsi
+
 # 添加imb3588
 echo "
 define Device/yx_imb3588
