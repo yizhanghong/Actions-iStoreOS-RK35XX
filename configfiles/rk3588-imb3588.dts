@@ -21,6 +21,8 @@
 	compatible = "rockchip,rk3588-yx-imb3588", "rockchip,rk3588";
 	
 	aliases {
+		ethernet0 = &gmac0;		
+		ethernet1 = &gmac1;
 		led-boot = &work_led;
 		led-failsafe = &work_led;
 		led-running = &work_led;
@@ -512,16 +514,16 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	// vcc3v3_pcie20_wifi: vcc3v3-pcie20-wifi {
-	// 	compatible = "regulator-fixed";
-	// 	regulator-name = "vcc3v3_pcie20_wifi";
-	// 	regulator-min-microvolt = <3300000>;
-	// 	regulator-max-microvolt = <3300000>;
-	// 	enable-active-high;
-	// 	gpios = <&gpio0 RK_PC4 GPIO_ACTIVE_HIGH>;
-	// 	startup-delay-us = <5000>;
-	// 	vin-supply = <&vcc12v_dcin>;
-	// };
+	vcc3v3_pcie20_wifi: vcc3v3-pcie20-wifi {
+	 	compatible = "regulator-fixed";
+	 	regulator-name = "vcc3v3_pcie20_wifi";
+	 	regulator-min-microvolt = <3300000>;
+	 	regulator-max-microvolt = <3300000>;
+	 	enable-active-high;
+	 	gpios = <&gpio0 RK_PC4 GPIO_ACTIVE_HIGH>;
+	 	startup-delay-us = <5000>;
+	 	vin-supply = <&vcc12v_dcin>;
+	 };
 
 	wireless_bluetooth: wireless-bluetooth {
 		compatible = "bluetooth-platdata";
@@ -899,7 +901,7 @@
 	reset-gpios = <&gpio1 RK_PB4 GPIO_ACTIVE_HIGH>;
 	rockchip,skip-scan-in-resume;
 	rockchip,perst-inactive-ms = <500>;
-	// vpcie3v3-supply = <&vcc3v3_pcie20_wifi>;
+	vpcie3v3-supply = <&vcc3v3_pcie20_wifi>;
 	status = "okay";
 };
 
