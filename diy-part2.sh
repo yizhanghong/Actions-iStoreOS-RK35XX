@@ -65,11 +65,11 @@ chmod 755 package/base-files/files/bin/ubus-examine.sh
 
 
 
-# 集成黑豹X2和荐片TV盒子WiFi驱动，默认启用WiFi
+# 集成黑豹X2和荐片TV盒子WiFi驱动，默认不启用WiFi
 cp -a $GITHUB_WORKSPACE/configfiles/firmware/* package/firmware/
 cp -f $GITHUB_WORKSPACE/configfiles/opwifi package/base-files/files/etc/init.d/opwifi
 chmod 755 package/base-files/files/etc/init.d/opwifi
-sed -i "s/wireless.radio\${devidx}.disabled=1/wireless.radio\${devidx}.disabled=0/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
+#sed -i "s/wireless.radio\${devidx}.disabled=1/wireless.radio\${devidx}.disabled=0/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 
 
@@ -83,7 +83,7 @@ chmod 755 package/base-files/files/bin/coremark.sh
 git clone --depth=1 https://github.com/sirpdboy/luci-app-eqosplus package/luci-app-eqosplus
 
 # rk3588调试改为115200
-sed -i "s/1500000/115200/g" target/linux/rockchip/dts/rk3588/rk3588-linux.dtsi
+#sed -i "s/1500000/115200/g" target/linux/rockchip/dts/rk3588/rk3588-linux.dtsi
 
 # 添加imb3588
 echo "
@@ -98,6 +98,7 @@ define Device/yx_imb3588
 endef
 TARGET_DEVICES += yx_imb3588
 " >>  target/linux/rockchip/image/rk35xx.mk
+
 
 echo "
 CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_yx_imb3588=y
@@ -122,3 +123,8 @@ CONFIG_PACKAGE_luci-app-qmodem-ttl=y
 " >> .config
 
 cp -f $GITHUB_WORKSPACE/configfiles/rk3588-imb3588.dts target/linux/rockchip/dts/rk3588/rk3588-imb3588.dts
+# 添加网口
+rm -f target/linux/rockchip/dts/rk3588/rk3588.dtsi
+cp -f $GITHUB_WORKSPACE/configfiles/rk3588.dtsi target/linux/rockchip/dts/rk3588/rk3588.dtsi
+rm -f target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
+cp -f $GITHUB_WORKSPACE/configfiles/02_network target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
