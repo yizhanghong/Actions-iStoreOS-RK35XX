@@ -94,7 +94,6 @@ define Device/yx_imb3588
   SUPPORTED_DEVICES += yx,imb3588
   DEVICE_DTS := rk3588-imb3588
   DEVICE_PACKAGES := kmod-r8125 kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275p
-  IMAGE/sysupgrade.img.gz := boot-combined | boot-script rk3588 | pine64-img | gzip | append-metadata
 endef
 TARGET_DEVICES += yx_imb3588
 " >>  target/linux/rockchip/image/rk35xx.mk
