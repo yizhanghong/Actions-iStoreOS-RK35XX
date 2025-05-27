@@ -105,6 +105,7 @@ git clone --depth=1 -b main https://github.com/FUjr/QModem package/modem
 echo "
 CONFIG_PACKAGE_luci-i18n-qmodem-zh-cn=y
 CONFIG_PACKAGE_luci-app-qmodem=y
+CONFIG_PACKAGE_luci-app-modem=n
 CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_vendor-qmi-wwan=y
 # CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_generic-qmi-wwan is not set
 CONFIG_PACKAGE_luci-app-qmodem_USE_TOM_CUSTOMIZED_QUECTEL_CM=y
