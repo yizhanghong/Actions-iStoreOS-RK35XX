@@ -82,18 +82,15 @@ chmod 755 package/base-files/files/bin/coremark.sh
 # 定时限速插件
 git clone --depth=1 https://github.com/sirpdboy/luci-app-eqosplus package/luci-app-eqosplus
 
-# rk3588调试改为115200
-#sed -i "s/1500000/115200/g" target/linux/rockchip/dts/rk3588/rk3588-linux.dtsi
-
 # 添加imb3588
 echo "
 define Device/yx_imb3588
 \$(call Device/rk3588)
   DEVICE_VENDOR := YX
   DEVICE_MODEL := IMB3588
+  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275p
   SUPPORTED_DEVICES += yx,imb3588
-  DEVICE_DTS := rk3588-imb3588
-  DEVICE_PACKAGES := kmod-r8125 kmod-thermal kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275p
+  DEVICE_DTS := rk3588-yx-imb3588
 endef
 TARGET_DEVICES += yx_imb3588
 " >>  target/linux/rockchip/image/rk35xx.mk
@@ -121,9 +118,8 @@ CONFIG_PACKAGE_luci-app-qmodem-sms=y
 CONFIG_PACKAGE_luci-app-qmodem-ttl=y
 " >> .config
 
-cp -f $GITHUB_WORKSPACE/configfiles/rk3588-imb3588.dts target/linux/rockchip/dts/rk3588/rk3588-imb3588.dts
+# 添加dts
+cp -f $GITHUB_WORKSPACE/configfiles/rk3588-yx-imb3588.dts target/linux/rockchip/dts/rk3588/rk3588-yx-imb3588.dts
 # 添加网口
-rm -f target/linux/rockchip/dts/rk3588/rk3588.dtsi
-cp -f $GITHUB_WORKSPACE/configfiles/rk3588.dtsi target/linux/rockchip/dts/rk3588/rk3588.dtsi
 rm -f target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
 cp -f $GITHUB_WORKSPACE/configfiles/02_network target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
