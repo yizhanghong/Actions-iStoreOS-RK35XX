@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
- * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ * Copyright (c) 2025 Rockchip Electronics Co., Ltd.
  *
  */
+ 
 /dts-v1/;
+
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/leds/common.h>
 #include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/pinctrl/rockchip.h>
 #include <dt-bindings/input/rk-input.h>
@@ -17,10 +20,10 @@
 #include "rk3588-linux.dtsi"
 
 / {
-	model = "Rockchip RK3588 YX IMB3588 Board";
-	compatible = "rockchip,rk3588-yx-imb3588", "rockchip,rk3588";
+	model = "YX IMB3588";
+	compatible = "yx,imb3588", "rockchip,rk3588";
 	
-	aliases {
+	aliases {	
 		ethernet0 = &gmac0;		
 		ethernet1 = &gmac1;
 		led-boot = &work_led;
@@ -523,7 +526,7 @@
 	 	gpios = <&gpio0 RK_PC4 GPIO_ACTIVE_HIGH>;
 	 	startup-delay-us = <5000>;
 	 	vin-supply = <&vcc12v_dcin>;
-	 };
+	};
 
 	wireless_bluetooth: wireless-bluetooth {
 		compatible = "bluetooth-platdata";
@@ -540,10 +543,67 @@
 		compatible = "wlan-platdata";
 		wifi_chip_type = "ap6275p";
 		pinctrl-names = "default";
-		pinctrl-0 = <&wifi_host_wake_irq>, <&wifi_poweren_gpio>;
+		pinctrl-0 = <&wifi_host_wake_irq>;
 		WIFI,host_wake_irq = <&gpio0 RK_PB2 GPIO_ACTIVE_HIGH>;
-		WIFI,poweren_gpio = <&gpio0 RK_PC4 GPIO_ACTIVE_HIGH>;
+	//	WIFI,poweren_gpio = <&gpio0 RK_PC4 GPIO_ACTIVE_HIGH>;
 		status = "okay";
+	};
+	
+	gmac_uio1: uio@fe1c0000 {
+		compatible = "rockchip,uio-gmac";
+		reg = <0x0 0xfe1c0000 0x0 0x10000>;
+		rockchip,ethernet = <&gmac1>;
+		status = "disabled";
+	};
+
+	gmac1: ethernet@fe1c0000 {
+		compatible = "rockchip,rk3588-gmac", "snps,dwmac-4.20a";
+		reg = <0x0 0xfe1c0000 0x0 0x10000>;
+		interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 233 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "macirq", "eth_wake_irq";
+		rockchip,grf = <&sys_grf>;
+		rockchip,php_grf = <&php_grf>;
+		clocks = <&cru CLK_GMAC_125M>, <&cru CLK_GMAC_50M>,
+			 <&cru PCLK_GMAC1>, <&cru ACLK_GMAC1>,
+			 <&cru CLK_GMAC1_PTP_REF>;
+		clock-names = "stmmaceth", "clk_mac_ref",
+			      "pclk_mac", "aclk_mac",
+			      "ptp_ref";
+		resets = <&cru SRST_A_GMAC1>;
+		reset-names = "stmmaceth";
+		power-domains = <&power RK3588_PD_GMAC>;
+
+		snps,mixed-burst;
+		snps,tso;
+		snps,no-vlhash;
+
+		snps,axi-config = <&gmac1_stmmac_axi_setup>;
+		snps,mtl-rx-config = <&gmac1_mtl_rx_setup>;
+		snps,mtl-tx-config = <&gmac1_mtl_tx_setup>;
+		status = "disabled";
+
+		mdio1: mdio {
+			compatible = "snps,dwmac-mdio";
+			#address-cells = <0x1>;
+			#size-cells = <0x0>;
+		};
+
+		gmac1_stmmac_axi_setup: stmmac-axi-config {
+			snps,wr_osr_lmt = <4>;
+			snps,rd_osr_lmt = <8>;
+			snps,blen = <0 0 0 0 16 8 4>;
+		};
+
+		gmac1_mtl_rx_setup: rx-queues-config {
+			snps,rx-queues-to-use = <1>;
+			queue0 {};
+		};
+
+		gmac1_mtl_tx_setup: tx-queues-config {
+			snps,tx-queues-to-use = <1>;
+			queue0 {};
+		};
 	};
 };
 
@@ -997,8 +1057,12 @@
 			rockchip,pins = <0 RK_PB2 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 
-		wifi_poweren_gpio: wifi-poweren-gpio {
-			rockchip,pins = <0 RK_PC4 RK_FUNC_GPIO &pcfg_pull_up>;
+		//wifi_poweren_gpio: wifi-poweren-gpio {
+		//	rockchip,pins = <0 RK_PC4 RK_FUNC_GPIO &pcfg_pull_up>;
+		//};
+		
+		i2c2_gpio:i2c2-gpio {
+			rockchip,pins = <0x00 0x19 0x00 0x16e 0x00 0x1a 0x00 0x16e>;
 		};
 	};
 	
