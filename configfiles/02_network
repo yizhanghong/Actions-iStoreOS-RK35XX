@@ -13,6 +13,7 @@ rockchip_setup_interfaces()
 	case "$board" in
 	armsom,sige1-v1|\
 	armsom,sige7-v1|\
+	yx,imb3588|\
 	easepi,ars4|\
 	friendlyelec,nanopi-r3s|\
 	friendlyelec,nanopi-r5c|\
@@ -62,7 +63,6 @@ rockchip_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:lan" "7t@eth1"
 		;;
-	yx,imb3588|\
 	cyber,cyber3588-aib)
 		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		;;
