@@ -123,6 +123,10 @@ cp -f $GITHUB_WORKSPACE/configfiles/rk3588-dc-a588.dts target/linux/rockchip/dts
 git clone --depth=1 -b main https://github.com/FUjr/QModem package/modem
 echo "
 CONFIG_PACKAGE_luci-i18n-qmodem-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-qmodem-hc-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-qmodem-mwan-zh-cn=y
+# CONFIG_PACKAGE_luci-i18n-qmodem-ru is not set
+CONFIG_PACKAGE_luci-i18n-qmodem-sms-zh-cn=y
 CONFIG_PACKAGE_luci-app-qmodem=y
 CONFIG_PACKAGE_luci-app-modem=n
 CONFIG_PACKAGE_luci-app-qmodem_INCLUDE_vendor-qmi-wwan=y
@@ -136,4 +140,7 @@ CONFIG_PACKAGE_luci-app-qmodem-hc=y
 CONFIG_PACKAGE_luci-app-qmodem-mwan=y
 CONFIG_PACKAGE_luci-app-qmodem-sms=y
 CONFIG_PACKAGE_luci-app-qmodem-ttl=y
+CONFIG_PACKAGE_qmodem=y
+CONFIG_PACKAGE_quectel-CM-5G=y
+CONFIG_PACKAGE_quectel-CM-5G-M=y
 " >> .config
