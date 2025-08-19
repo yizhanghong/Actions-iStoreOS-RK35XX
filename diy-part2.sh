@@ -120,7 +120,7 @@ cp -f $GITHUB_WORKSPACE/configfiles/rk3588-yx-imb3588.dts target/linux/rockchip/
 cp -f $GITHUB_WORKSPACE/configfiles/rk3588-dc-a588.dts target/linux/rockchip/dts/rk3588/rk3588-dc-a588.dts
 
 #添加qmodem
-git clone --depth=1 -b main https://github.com/FUjr/QModem package/modem
+git clone --depth=1 -b main https://github.com/FUjr/QModem feeds/modem
 echo "
 CONFIG_PACKAGE_luci-i18n-qmodem-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-qmodem-hc-zh-cn=y
