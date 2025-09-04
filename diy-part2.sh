@@ -133,6 +133,7 @@ CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_dc-a588=y
 # 添加dts
 cp -f $GITHUB_WORKSPACE/configfiles/rk3588-yx-imb3588.dts target/linux/rockchip/dts/rk3588/rk3588-yx-imb3588.dts
 cp -f $GITHUB_WORKSPACE/configfiles/rk3588-dc-a588.dts target/linux/rockchip/dts/rk3588/rk3588-dc-a588.dts
+cp -f $GITHUB_WORKSPACE/configfiles/rk3588-jwipc-e88a.dts target/linux/rockchip/dts/rk3588/rk3588-jwipc-e88a.dts
 
 #添加qmodem
 git clone --depth=1 -b main https://github.com/FUjr/QModem feeds/modem
