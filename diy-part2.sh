@@ -93,7 +93,7 @@ endef
 TARGET_DEVICES += yx_imb3588
 " >>  target/linux/rockchip/image/rk35xx.mk
 
-sed -i "s/armsom,sige7-v1|/yx,imb3588|armsom,sige7-v1|/g" target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
+#sed -i "s/armsom,sige7-v1|/yx,imb3588|armsom,sige7-v1|/g" target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
 
 # 添加a588
 echo "
@@ -108,7 +108,22 @@ endef
 TARGET_DEVICES += dc_a588
 " >>  target/linux/rockchip/image/rk35xx.mk
 
-sed -i "s/armsom,sige7-v1|/yx,imb3588|dc,a588|armsom,sige7-v1|/g" target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
+#sed -i "s/armsom,sige7-v1|/yx,imb3588|dc,a588|armsom,sige7-v1|/g" target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
+
+# 添加e88a
+echo "
+define Device/jwipc_jea-e88a
+\$(call Device/rk3588)
+  DEVICE_VENDOR := JWIPC
+  DEVICE_MODEL := jea-e88a
+  DEVICE_PACKAGES := kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal kmod-mt7921e kmod-usb3
+  SUPPORTED_DEVICES += jwipc,jea-e88a
+  DEVICE_DTS := rk3588-jwipc-e88a
+endef
+TARGET_DEVICES += jwipc_jea-e88a
+" >>  target/linux/rockchip/image/rk35xx.mk
+
+sed -i "s/armsom,sige7-v1|/jwipc,jea-e88a|yx,imb3588|dc,a588|armsom,sige7-v1|/g" target/linux/rockchip/rk35xx/base-files/etc/board.d/02_network
 
 echo " 
 CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_yx_imb3588=y
