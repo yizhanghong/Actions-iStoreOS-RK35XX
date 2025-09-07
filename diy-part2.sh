@@ -116,7 +116,7 @@ define Device/jwipc_jea-e88a
 \$(call Device/rk3588)
   DEVICE_VENDOR := JWIPC
   DEVICE_MODEL := jea-e88a
-  DEVICE_PACKAGES := kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal kmod-mt7921e kmod-usb3
+  DEVICE_PACKAGES := kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal
   SUPPORTED_DEVICES += jwipc,jea-e88a
   DEVICE_DTS := rk3588-jwipc-e88a
 endef
@@ -127,7 +127,8 @@ sed -i "s/armsom,sige7-v1|/jwipc,jea-e88a|yx,imb3588|dc,a588|armsom,sige7-v1|/g"
 
 echo " 
 CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_yx_imb3588=y
-CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_dc-a588=y
+CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_dc_a588=y
+CONFIG_TARGET_DEVICE_rockchip_rk35xx_DEVICE_jwipc_jea-e88a=y
 " >>  .config
 
 # 添加dts
